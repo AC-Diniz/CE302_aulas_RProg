@@ -112,6 +112,35 @@ head(dados)
 
 
 # Setup pipe --------------------------------------------------------------
+#Carregando pacotes neecessários
+require(tidyverse)
+
+dados <- readr::read_csv("data/Mental Health Dataset.csv")
+head(dados, 2) #função para ver os dados, pode usar glimpse(dados) também
+
+#EXEMPLO DO USO DO OPERADOR PIPE
+#Suponha que queremos calcular o cos dos valores únicos de um vetor x,
+#ordená-los em ordem decrescente
+
+#Sem o uso do pipe
+x <- c(-2:2)
+x
+sort(cos(
+  unique(x)),
+  decreasing = TRUE)
+
+#Com o pipe %>%
+require(magrittr)
+x %>%
+  unique() %>%
+  cos() %>%
+  sort(decreasing = TRUE)
+
+##Pipe de atribuição
+y <- 1:10
+y
+y %<>% log()
+y
 
 
 # Mutate e select ---------------------------------------------------------
