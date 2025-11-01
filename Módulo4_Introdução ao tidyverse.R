@@ -144,7 +144,71 @@ y
 
 
 # Mutate e select ---------------------------------------------------------
+#Mutate: criar novas variáveis
+dados <- dados %>%
+  mutate(mercosul= ifelse(
+    Country %in%
+      c("Argentina", "Brazil", "Paraguay", "Uruguay"),
+    "Mercosul", "Não Mercosul"
+  ))
+glimpse(dados)
+table(dados$mercosul)
 
+#Selecionar as variáveis pelo nome
+dados2 <- dados %>%
+  select(Country, Timestamp, Days_Indoors, mercosul)
+glimpse(dados2)
+#Selecionar as variáveis pelos índices
+dados3 <- dados %>%
+  select(3:5)
+glimpse(dados3)
+#Seleção intervalar
+dados4 <- dados %>%
+  select(treatment:Changes_Habits)
+glimpse(dados4)
+#Selecionar variáveis com algum padrão
+dados5 <- dados %>%
+  select(starts_with("t")) #começam com a letra t
+glimpse(dados5)
+
+dados6 <- dados %>%
+  select(ends_with("s")) #terminam com s
+
+dados7 <- dados %>%
+  select(contains("ing")) #palavras que contêm "ing"
+glimpse(dados7)
+
+dados8 <- dados %>%
+  select(matches("[tT]")) #contém t ou T
+glimpse(dados8)
+
+#Remover variáveis usando o select
+dados9 <- dados %>%
+  select(-Country, -Timestamp, -Days_Indoors, -mercosul)
+glimpse(dados9)
+
+dados10 <- dados %>%
+  select(-c(Country, Timestamp, Days-Indoors, mercosul))
+glimpse(dados10)
+
+#Seleção de variáveis por tipos específicos de dados (critério específico)
+dados11 <- dados %>%
+  select_if(is.character()) #selecionar as variáveis que são do tipo character
+glimpse(dados11)
+
+dados12 <- dados %>%
+  select_if(is.numeric()) #selecionar as do tipo numeric
+glimpse(dados12)
+
+#Seleção por critérios - definidos externamente
+variaveis <- c("Country", "Timestamps", "Days_Indoors", "mercosul")
+dados13 <- dados %>%
+  select(all_of(variaveis)) #selecionar aquelas que atendem ao critério externo
+glimpse(dados13)
+
+dados14 <- dados %>%
+  select(any_of(variaveis))
+glimpse(dados14)
 
 # Filter ------------------------------------------------------------------
 
