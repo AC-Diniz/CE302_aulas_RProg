@@ -259,6 +259,30 @@ car_crash9 <- car_crash %>%
 glimpse(car_crash9)
 
 # Arrange -----------------------------------------------------------------
+#Ordenar por ordem descrescente
+car_crash10 <- car_crash %>%
+  arrange(desc(automovel))
+
+#Ordenar mais de uma variável (uma decrescente e outra crescente)
+car_crash11 <- car_crash %>%
+  arrange(desc(automovel), mortos) %>%
+  select(automovel, mortos)
+  #na.exclude()
+glimpse(car_crash11)
+head(car_crash11)
+
+#Fatiando linhas com slice()
+car_crash_slice1 <- car_crash %>%
+  select(1:5) %>% #selecionar as variáveis de 1 a 5
+  slice(3:5) #selecionar as linhas 3 a 5
+car_crash_slice1
+
+#Fatiar as 3 primeiras linhas
+car_crash_slice2 <- car_crash %>%
+  select(1:5) %>% #selecionar as variáveis de 1 a 5
+  slice_head(n=3) #selecionar as linhas 3 a 5
+car_crash_slice2
+
 
 
 # Exercício 1 -------------------------------------------------------------
