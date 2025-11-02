@@ -211,7 +211,52 @@ dados14 <- dados %>%
 glimpse(dados14)
 
 # Filter ------------------------------------------------------------------
+library(data.table)
+car_crash <- fread("C:/Users/acdin/OneDrive/Documentos/UFPR- Curso de Estatística/2º Período/CE302- Elementos de Programação para Estatística/Script R/Aulas/CE302_aulas_RProg/archive/Brazil Total highway crashes 2010 - 2023.csv")
+glimpse(car_crash)
 
+#Filtrando linhas com filter ()
+car_crash2 <- car_crash %>%
+  filter(tipo_de_ocorrencia=="sem vítima") #ocorrência que não tenha vítimas
+glimpse(car_crash2)
+
+#Filbros combinados: múltiplas condições (operadores lógicos)
+car_crash3 <- car_crash %>%
+  filter(tipo_de_ocorrencia=="sem vítmia" & automovel>=3)
+glimpse(car_crash3)
+
+#Filtros envolvendo intervalos (between)
+car_crash4 <- car_crash %>%
+  filter(between(automovel, 3, 5)) #funciona quando se tem números
+glimpse(car_crash4)
+
+#Filtrando intervalos de strings (palavras) com o perador %in%
+car_crash5 <- car_crash %>%
+  filter(tipo_de_ocorrencia %in% c("sem vítima", "com vítima"))
+glimpse(car_crash5)
+
+tipos <- c("sem vítima", "com vítima")
+
+#Filtrar o contrário (! ou not in -> %ni% <- Negate(%in%))
+car_crash6 <- car_crash %>%
+  filter(!tipo_de_ocorrencia %in% tipos)
+glimpse(car_crash6)
+
+#Usando o %ni%
+`%ni%` <- Negate(`%in%`)
+car_crash7 <-  car_crash %>%
+  filter(tipo_de_ocorrencia %ni% tipos)
+glimpse(car_crash7)
+
+#Buscando padrões com filter()
+car_crash8 <- car_crash %>%
+  filter(tipo_de_ocorrencia %like% "vítima") #buscar as observações que têm a palavras "vítima"
+glimpse(car_crash8)
+
+#Filtrar por textos específicos
+car_crash9 <- car_crash %>%
+  filter(grepl("ilesa|fatal", tipo_de_ocorrencia))
+glimpse(car_crash9)
 
 # Arrange -----------------------------------------------------------------
 
