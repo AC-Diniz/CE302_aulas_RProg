@@ -286,6 +286,23 @@ car_crash_slice2
 
 
 # Exercício 1 -------------------------------------------------------------
+#1. Filtre as observações cujo tipo de evento é Tropical Depression.
+#Quantas observações existem?
+storms %>%
+  filter(status == "tropical depression") %>%
+  nrow()
+
+#2. Filtre as observações cujo tipo de evento é Tropical Depression 
+#e a velocidade do vento é maior ou igual a 40. Quantas observações existem?
+storms %>%
+  filter(status=="tropical depression" & wind>=40) %>%
+  nrow()
+
+# 3. Selecione as variáveis numéricas e ordene as observações pela 
+# variável pressure em ordem crescente
+storms %>%
+  select_if(is.numeric)%>%
+  arrange(pressure)
 
 
 # Rename ------------------------------------------------------------------
