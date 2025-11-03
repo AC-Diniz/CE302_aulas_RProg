@@ -306,6 +306,43 @@ storms %>%
 
 
 # Rename ------------------------------------------------------------------
+#renomear a variável automóvel
+car_crash12 <- car_crash %>%
+  rename(numero_automoveis = automovel)
+glimpse(car_crash12)
+
+#Realocando colunas com relocate()
+#realocar a variável automoveis para a 1º posição do banco de dados
+car_crash_relocate = car_crash %>%
+  relocate(automovel, .before = 1)
+glimpse(car_crash_relocate)
+
+#realocar para a última
+car_crash_relocate2 = car_crash %>%
+  relocate(automovel, .after = last_col())
+glimpse(car_crash_relocate2)
+
+#Transformando dados com transmute
+car_crash_transmute <- car_crash %>%
+  transmute(automovel_10 = automovel/10)
+glimpse(car_crash_transmute)
+
+#Alterando NA com replace_na()
+car_crash_replace_na <- car_crash %>%
+  mutate(mortos = replace_na(mortos, 0))
+glimpse(car_crash_replace_na)
+
+#Classificando dados com cut()
+car_crash_cut <- car_crash %>%
+  mutate(autmovel = replace_na(automovel, 0))%>%
+  mutate(automovel_cat = cut(automovel,
+                             breaks = c(-Inf, 0, 3, Inf),
+                             labels= c("sem automóveis",
+                                       "entre 1 e 3 automóveis",
+                                       "mais do que três")))
+glimpse(car_crash_cut)
+table(car_crash_cut$autmovel,
+      car_crash_cut$automovel_cat)
 
 
 # Summarize ---------------------------------------------------------------
