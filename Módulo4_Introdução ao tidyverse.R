@@ -346,6 +346,76 @@ table(car_crash_cut$autmovel,
 
 
 # Summarize ---------------------------------------------------------------
+Car_crash13 <- car_crash %>%
+  summarise(total_automoveis = sum(automovel, na.rm = TRUE))
+glimpse(Car_crash13)
+
+#Sumarizar mais de uma var. (total de autmoveis e mortos)
+car_crash14 <- car_crash %>%
+  summarise(total_automoveis = sum(automovel, na.rm=T),
+            total_mortos = sum(mortos, na.rm = TRUE),
+            n = n(),
+            media_mortos = mean(mortos, na.rm=T))
+car_crash14
+
+#Agrupando dados com group_by()
+library(lubridate) #para trabalhar com datas
+car_crash15 <- car_crash %>%
+  mutate(ano = year(dmy(data))) %>% #criação da variável ano
+  group_by(ano)
+glimpse(car_crash15)
+
+#Sumarizando dados com summarise()
+#Sumarizar o nº total de automóveis envolvidos em acidentes e o número total de mortos por ano
+car_crash16 <- car_crash %>%
+  mutate(ano = year(dmy(data))) %>%
+  group_by(ano) %>%
+  summarise(total_automoveis = sum(automovel, na.rm = T),
+            total_mortos = sum(mortos, na.rm = T))
+head(car_crash16)
+
+#Encadeando funções
+#filtar as obs. cujo tipo de ocorrência é com vítima e
+#sumarizar o número total de autmóveis envolvidos em acidentes e o nº total de mortos
+car_crash17 <-  car_crash %>%
+  filter(tipo_de_ocorrencia == "com vítima") %>%
+  summarise(total_automoveis = sum(automovel, na.rm = T),
+            total_mortos = sum(mortos, na.rm = T))
+car_crash17
+
+
+# Exercício 2 -------------------------------------------------------------
+# 1. Utilizando os dados starwars faça o que se pede:
+#   Qual é o número total de espécies únicas presentes? Qual a frequência de
+#   indivíduos por espécie?
+starwars %>%
+  summarise(n_total_especies = n_distinct(species))
+
+starwars %>%
+  group_by(freq_especies = n()) %>%
+  arrange(desc(freq_especies))
+
+# 
+#   Calcule a altura média de personagens masculinos e femininos.
+starwars %>%
+  filter(sex %in% c("female", "male")) %>%
+  group_by(sex) %>%
+  summarise(media_altura = mean(height, na.rm=TRUE))
+
+
+#   Qual é o peso médio dos personagens de cada espécie para personagens masculinos?
+starwars %>%
+  filter(sex == "male") %>%
+  group_by(species) %>%
+  summarise(media_peso = mean(mass, na.rm =TRUE))
+
+#   Para cada espécie prsente na base de dados, identifique o personagem mais pesado
+#   e seu peso correspondente.
+starwars %>%
+  group_by(species) %>%
+  filter(mass == max(mass, na.rm=TRUE)) %>%
+  select(species, name, mass)
+  
 
 
 # Lubridate ---------------------------------------------------------------
