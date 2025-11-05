@@ -220,7 +220,7 @@ car_crash2 <- car_crash %>%
   filter(tipo_de_ocorrencia=="sem vítima") #ocorrência que não tenha vítimas
 glimpse(car_crash2)
 
-#Filbros combinados: múltiplas condições (operadores lógicos)
+#Filtros combinados: múltiplas condições (operadores lógicos)
 car_crash3 <- car_crash %>%
   filter(tipo_de_ocorrencia=="sem vítmia" & automovel>=3)
 glimpse(car_crash3)
@@ -419,7 +419,82 @@ starwars %>%
 
 
 # Lubridate ---------------------------------------------------------------
+#Manipulação de datas
+car_crash %>%
+  mutate(data = dmy(data)) %>%
+  select(data) %>%
+  head(n=2)
 
+car_crash %>%
+  mutate(data = dmy(data)) %>%
+  mutate(ano = year(data),
+         mes = month(data),
+         dia = day(data)) %>%
+  select(data, ano, mes, dia) %>%
+  head()
+
+#Calcular a diferente de duas datas usando difftime()
+car_crash %>%
+  mutate(data = dmy(data)) %>%
+  mutate(dias_desde_acidente = difftime(Sys.Date(), data, units = "days")) %>%
+  select(data, dias_desde_acidente) %>%
+  head()
+
+#Somar ou substituir dias de uma data usando lubridate::days()
+car_crash %>%
+  mutate(data = dmy(data)) %>%
+  mutate(data_mais_10_dias = data + lubridate::days(10)) %>%
+  select(data, data_mais_10_dias) %>%
+  head()
+
+#Manipulação de datas - horas, minutos e segundos: hour(), minute() e second()
+data <- ymd_hms("2023-08-21 15:30:45")
+ano <- year(data)
+mes <- month(data)
+dia <- day(data)
+hora <- hour(data)
+minuto <- minute(data)
+segundo <- second(data)
+print(ano)
+print(mes)
+print(dia)
+print(hora)
+print(minuto)
+print(segundo)
+
+#Conversão de fuso horário - with_tz()
+#data original do fuso horário de Nova Iorque
+data_ny <- ymd_hms("2025-10-21 12:00:00", tz= "America/New_York")
+#Converter para fuso horário de Londres
+data_london <- with_tz(data_ny,tz="Europe/London")
+print(data_london)
+
+
+# Exercício 3 -------------------------------------------------------------
+
+# 1. Utilizando o banco de dados car_crash, faça o que se pede:
+#   quais os meses do ano com maior número de acidentes fatais?
+car_crash %>%
+  mutate(data = dmy(data)) %>% #formatar para data
+  mutate(ano = year(data), #preciso da informação do mês e do ano
+         mes =  month(data)) %>%
+  select(data, ano, mes, mortos) %>%
+  filter(mortos >0)%>%
+  group_by(mes) %>%
+  summarise(total_mortos = sum(mortos)) %>%
+  arrange(desc(total_mortos))
+#   
+#   quais os dias da semana com maior número de acidentes fatais?
+car_crash %>%
+  mutate(data = dmy(data)) %>%
+  mutate(dia_semana = lubridate::wday(data, label = T, abbr = F)) %>% #abbr -> não abreviar
+  select(dia_semana, mortos) %>%
+  filter(mortos>0) %>%
+  group_by(dia_semana) %>%
+  summarise(total_mortos_dia = sum(mortos)) %>% #contar quantos mortos naquele dia da semana
+  arrange(desc(total_mortos_dia))
+#     dica: busque por uma função que retorne o dia da semana a partir de uma data
+ 
 
 # Pivot -------------------------------------------------------------------
 
