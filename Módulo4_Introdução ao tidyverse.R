@@ -632,5 +632,17 @@ anti_join(df1, df_extra,
                "nome"))
 
 # Exportação de dados -----------------------------------------------------
+#arquivos em texto pleno
+write_csv(df1,
+          file= "Nome_do_arquivo.csv")
 
+#arquivo binário do R
+save(df1,
+     file= "Nome_do_arquivo.RData")
+##carregando arquivo .RData
+load("Nome_do_arquivo.RData")
 
+#criando planilha eletrônica
+library(writexl)
+install.packages("writexl")
+write_xlsx(df1, "Nome_do_arquivo.xlsx")
