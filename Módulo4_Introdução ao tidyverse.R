@@ -576,7 +576,60 @@ str_detect("I have a cat", "cat|dog")
 
 
 # Combinação de dados -----------------------------------------------------
+#Concatenação
 
+#Criação deum tribble
+#por colunas
+df1 <- tibble(
+  mat= c(256, 487, 965, 125, 458, 874, 963),
+  nome= c("João", "Vanessa", "Tiago", "Luana",
+          "Gisele", "Pedro", "André"),
+  curso = c("Mat", "Est", "Est", "Est", "Est", "Mat", "Est"),
+  prova1= c(80, 75, 95, 70, 45, 55, 30),
+  prova2= c(90, 75, 80, 85, 50, 75, NA),
+  prova3= c(80, 75, 75, 50, NA, 90, 30),
+  faltas= c(4,4, 0, 8, 16, 0, 20)
+)
+
+
+#por linhas
+df_extra <- tribble(
+  ~mat, ~nome, ~idade, ~bolsista,
+  256, "João", 18, "S",
+  
+)
+
+#Concatenação
+#linhas (vertical) - pilha
+bind_rows(df1[1:3, c(1, 3, 5)],
+          df1[5:7, c(1, 3, 5, 4)],
+          df1[4, c(1, 5, 4)])
+#colunas (horizontal)
+bind_cols(df1[, c(1:3)],
+          df1[, c(6:7)])
+
+#Junções
+#full_join() - união
+full_join(df1, df_extra,
+          by=c("mat"="mat", "nome"))
+
+#inner_join() - intersecção
+inner_join(df1, 
+           df_extra,
+           by= c("mat"="mat",
+                 "nome"))
+#todos os que estão na 1ºtabela
+left_join(df1, df_extra,
+          by= c("mat"="mat", 
+                "nome"))
+#todos os que estõa na 2º tabela
+right_join(df1, df_extra,
+           by=c("mat"="mat",
+                "nome"))
+#os da 2º que não aparecem na 1º
+anti_join(df1, df_extra,
+          by=c("mat"="mat", 
+               "nome"))
 
 # Exportação de dados -----------------------------------------------------
 
