@@ -537,10 +537,42 @@ flights %>%
               values_fill = 0)
 
 
-
-
-
 # String ------------------------------------------------------------------
+library(stringr)
+texto <- "Olá, Mundo!"
+#Comprimento da string str_length()
+str_length(texto)
+#Converter para minúsculas str_to_lower()
+str_to_lower(texto)
+#Converter para maiúsculas str_to_upper()
+str_to_upper(texto)
+#Extrair substring str_sub()
+str_sub(texto, 1, 3)
+#Substituir parte da string str_replace()
+str_replace(texto, "Mundo", "R")
+#Verificar se a string tem padrão str_detect()
+str_detect(texto, "Mundo")
+
+
+
+# Regex Básico (expressões regulares) -------------------------------------
+#Padrões utilizados para buscar e manipular strings
+
+#corresponder qualquer caractere
+str_detect("abc", "a.c")
+#início da string
+str_detect("abc", "^a")
+#fim da string
+str_detect("abc", "c$")
+#zero ou mais ocorrências
+str_detect("aaab", "a*b")
+#Uma ou mais ocorrências
+str_detect("aaab", "a+b")
+#Conjunto de caracteres, corresponde a "a","b" ou "c"
+str_detect("abc", "[abc]")
+#Operador "ou", corresponde a 'cat' ou "dog"
+str_detect("I have a cat", "cat|dog")
+
 
 
 # Combinação de dados -----------------------------------------------------
