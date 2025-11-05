@@ -497,6 +497,47 @@ car_crash %>%
  
 
 # Pivot -------------------------------------------------------------------
+table1
+#Transformar dados do long para wide pivot_wider()
+table1 %>%
+  select(-population) %>%
+  pivot_wider(names_from = year,
+              values_from = cases)
+
+#pivotando com mais de uma variável
+table1 %>%
+  pivot_wider(names_from = year,
+              values_from = c(cases, population))
+
+#Transformar de wide para long - pivot_longer()
+table1 %>%
+  pivot_longer(cols = c(cases, population),
+               names_to = "variable",
+               values_to = "total")
+
+#Separando observações
+#em diferentes colunas - separete()
+table3 %>%
+  separate(rate, into =c("cases", "population"))
+
+#Juntando observações
+#de diferentes colunas em uma unite()
+table1%>%
+  unite(rate, cases, population, sep="/")
+
+# Exercício 4 -------------------------------------------------------------
+# 1. Utilizando os dados de flights, do pacote {nycflights13}, crie uma matriz
+# que mostra o número de voos entre cada par de aeroportos
+install.packages("nycflights13")
+library(nycflights13)
+flights %>%
+  count(origin, dest)%>%
+  pivot_wider(names_from = origin,
+              values_from = n,
+              values_fill = 0)
+
+
+
 
 
 # String ------------------------------------------------------------------
